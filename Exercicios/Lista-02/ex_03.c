@@ -7,6 +7,8 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
+
 
 int main() {
   char palavra[100], palavra_invertida[100];
