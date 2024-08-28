@@ -13,6 +13,17 @@
 #include <string.h>
 #include <ctype.h>
 
+void formatador(int tamanho, char string[]) {
+  for(int i = tamanho; i >= 1; i--) {
+    if(string[i] == ' ' || string[i] == '-') {
+      string[i + 1] = toupper(string[i + 1]);
+    } else {
+      string[i] = tolower(string[i]); 
+    }
+  }
+  string[0] = toupper(string[0]);
+}
+
 int main() {
   char nome[100], nome_mae[100], nome_cidade[100], nome_jedi[12], nome_comp[8];
   int tamanho;
@@ -31,9 +42,9 @@ int main() {
     if(nome[tamanho - i - 1] == ' ') {
       for(int j = 0, cont = 0; j < 5; j++) {
         if(j < 3) {
-          nome_jedi[j] = tolower(nome[j]);
+          nome_jedi[j] = nome[j];
         } else {
-          nome_jedi[j] = tolower(nome[tamanho - i - cont]);
+          nome_jedi[j] = nome[tamanho - i - cont];
           cont--;
         }
       }
@@ -45,9 +56,9 @@ int main() {
 
   for(int i = 0, j = 6, cont = 0; i < 5; i++, j++) {
     if(i < 2) {
-      nome_jedi[j] = tolower(nome_mae[i]);
+      nome_jedi[j] = nome_mae[i];
     } else {
-      nome_jedi[j] = tolower(nome_cidade[cont]);
+      nome_jedi[j] = nome_cidade[cont];
       cont++;
     }
   }
@@ -56,19 +67,19 @@ int main() {
   
   for (int i = 0, cont = 8; i < 7; i++) {
     if(i < 3) {
-      nome_comp[i] = tolower(nome_jedi[i]);
+      nome_comp[i] = nome_jedi[i];
     } else if(i == 3) {
       nome_comp[i] = '-';
     } else {
-      nome_comp[i] = tolower(nome_jedi[cont]);
+      nome_comp[i] = nome_jedi[cont];
       cont++;
     }
   }
 
-  nome_jedi[6] = toupper(nome_jedi[6]);
-  nome_jedi[0] = toupper(nome_jedi[0]);
-  nome_comp[4] = toupper(nome_comp[4]);
-  nome_comp[0] = toupper(nome_comp[0]);
+  nome_comp[7] = '\0';
+
+  formatador(11, nome_jedi);
+  formatador(7, nome_comp);
 
   printf("\Nome Jedi: %s", nome_jedi);
   printf("\nNome Composto: %s", nome_comp);
