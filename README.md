@@ -4,7 +4,8 @@
 
 # Professora
 
-  Andréa Lucia Braga Vieira Rodrigues
+  Andréa Lucia Braga Vieira Rodrigues - Teórica
+  Talita Dos Reis Lopes Berbel - Prática
 
 # Tecnologia
 
