@@ -68,9 +68,3 @@ int vtemp_inferior_media(int *p_temp, int *temp_inferior_media, float media) {
   return j;
 }
 
-// void mostra(int *lista, int tamanho) {
-//   for(int i = 0; i < 31; i++) {
-//     printf("Temperatura do dia %i: %i\n", i+1, *(lista+i));
-//   }
-// }
-
