@@ -20,7 +20,6 @@ int main() {
   printf("Endereco: %p ", p_nome);
   printf("\nNome: %s ", p_nome);
 
-
   for (int i = 0; i < (tamanho)/2; i++) {
     char c = *(p_nome+i);
     *(p_nome+i) = *(p_nome+tamanho-i-1);
@@ -46,5 +45,5 @@ void pegar_nome(char **p_nome, int *tam) {
      *(*p_nome + *tam) = c;
     (*tam)++;
   }
-  *(p_nome+(*tam)) = '\0';
+  *(*p_nome + *tam) = '\0';
 }
