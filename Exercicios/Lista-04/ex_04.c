@@ -37,7 +37,9 @@ void aloca(float **p_num, int tam) {
 void calc_media(float *p_num, int tam) {
   float media = 0;
   for (int i = 0; i < tam; i++) {
+    if(*(p_num+i) != 0) {
       media += *(p_num+i);
+    }
   }
   media /= tam;
   printf("A media dos numeros digitados e: %.1f\n", media);
