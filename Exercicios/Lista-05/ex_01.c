@@ -18,6 +18,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct client {
   char nome[30];
@@ -28,9 +29,10 @@ typedef struct client {
 client cadastro();
 void deposito(client conta[], int num_conta);
 void retirada(client conta[], int num_conta);
+#define tam 10
 
 int main() {
-  int tam = 10, num_conta;
+  int num_conta;
   client contas[tam];
   char op = 'S', op2;
 
@@ -81,9 +83,9 @@ client cadastro() {
 }
 
 void deposito(client conta[], int num_conta) {
-  int i = 0, enc;
+  int i = 0, enc = 0;
   float valor;
-  for (; i < 10; i++) {
+  for (; i < tam; i++) {
     if(conta[i].conta == num_conta) {
       printf("\nNome: %sSaldo: %2.f.\n", conta[i].nome, conta[i].saldo);
       printf("Valor do deposito: ");
@@ -99,7 +101,7 @@ void deposito(client conta[], int num_conta) {
   }
   
   if(!enc) {
-    printf("Conta não encontrada");
+    printf("\nConta nao encontrada");
   }
   
 }
@@ -107,7 +109,7 @@ void deposito(client conta[], int num_conta) {
 void retirada(client conta[], int num_conta) {
   int i = 0, enc;
   float valor;
-  for (; i < 10; i++) {
+  for (; i < tam; i++) {
     if(conta[i].conta == num_conta) {
       printf("\nNome: %sSaldo: %2.f.\n", conta[i].nome, conta[i].saldo);
       printf("Valor da retirada: ");
@@ -125,6 +127,6 @@ void retirada(client conta[], int num_conta) {
   }
   
   if(!enc) {
-    printf("Conta não encontrada");
+    printf("\nConta nao encontrada");
   }
 }
