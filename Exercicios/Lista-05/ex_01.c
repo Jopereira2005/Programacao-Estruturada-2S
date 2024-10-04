@@ -56,6 +56,8 @@ int main() {
       retirada(contas, num_conta);
     } else if(op2 == '3') {
       scanf("%i", &num_conta);
+    } else {
+      printf("Opcao invalida");
     }
 
     fflush(stdin);
