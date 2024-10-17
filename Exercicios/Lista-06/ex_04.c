@@ -70,8 +70,6 @@ int busca_hospede(hospede *p_hospede, int qtdd_hospede);
 
 void checkout(hospede *p_hospede, quarto *p_quarto,int qtdd_hospede, int qtdd_quarto);
 
-
-
 int main() {
   quarto *p_quarto = NULL;
   hospede *p_hospede = NULL;
@@ -99,7 +97,6 @@ int main() {
     printf("Escolha uma das opcoes acima: ");
     scanf("%i", &op);
     printf("\n");
-
 
     fflush(stdin);
     
@@ -255,20 +252,21 @@ void checkout(hospede *p_hospede, quarto *p_quarto, int qtdd_hospede, int qtdd_q
         if((p_quarto+i)->status == 'O') {
           (p_quarto+i)->status = 'L';
           pos_quarto = num_quarto;
-        } else {
-          pos_quarto = -1;
+          break;
         }
+      } else {
+        pos_quarto = -1;
       }
     }
 
     if(pos_quarto < 0) {
-      printf("O quarto indicado está Livre\n");
+      printf("O quarto indicado ou esta livre ou nao existe.\n");
       printf("Deseja tentar novamente (S/N): ");
       scanf("%c", &op);
       fflush(stdin);
-    } 
+    }
     
-    if(op != 'N' && op != 'n') {
+    if(op == 'N' || op == 'n') {
       break;
     }
   } while(pos_quarto < 0);
