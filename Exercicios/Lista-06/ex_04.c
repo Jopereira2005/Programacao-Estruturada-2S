@@ -66,14 +66,14 @@ void mostra_quartos(quarto *p_quarto, int qtdd_quarto);
 void mostra_hospedes(hospede *p_hospede, int qtdd_hospede);
 
 int busca_quarto(quarto *p_quarto, int qtdd_quarto, char categoria, char status);
-int busca_hospede(hospede *p_hospede, int qtdd_hospede);
+int busca_hospede(hospede *p_hospede, int qtdd_hospede, int quarto);
 
 void checkout(hospede *p_hospede, quarto *p_quarto,int qtdd_hospede, int qtdd_quarto);
 
 int main() {
   quarto *p_quarto = NULL;
   hospede *p_hospede = NULL;
-  int qtdd_quarto = 0, qtdd_hospede = 0, op;
+  int qtdd_quarto = 0, qtdd_hospede = 0, op, pos_hospede;
   char categoria;
 
   for(int i = 0; i < 5; i++) {
@@ -102,9 +102,13 @@ int main() {
     
     switch (op) {
       case 1:
-        aloca_hospede(&p_hospede, qtdd_hospede+1);
-        cadastro_hospede(p_hospede+qtdd_hospede, p_quarto, qtdd_quarto);
-        qtdd_hospede++;
+        if((pos_hospede = busca_hospede(p_hospede, qtdd_hospede, -1)) < 0) {
+          aloca_hospede(&p_hospede, qtdd_hospede+1);
+          cadastro_hospede(p_hospede+qtdd_hospede, p_quarto, qtdd_quarto);
+          qtdd_hospede++;
+        } else {
+          cadastro_hospede(p_hospede+pos_hospede, p_quarto, qtdd_quarto);
+        }
         break;
       case 2:
         checkout(p_hospede, p_quarto, qtdd_hospede, qtdd_quarto);
@@ -184,6 +188,7 @@ void cadastro_hospede(hospede *p_hospede, quarto *p_quarto, int qtdd_quarto) {
   do {
     printf("Digite o tempo de estadia (dias): ");
     scanf("%i", &dias);
+    printf("\n");
 
     if(dias <= 0) {
       printf("Quantidade invalida.\n");
@@ -228,9 +233,9 @@ int busca_quarto(quarto *p_quarto, int qtdd_quarto, char categoria, char status)
   return -1;
 }
 
-int busca_hospede(hospede *p_hospede, int qtdd_hospede) {
+int busca_hospede(hospede *p_hospede, int qtdd_hospede, int quarto) {
   for(int i = 0; i < qtdd_hospede; i++) {
-    if((p_hospede+i)->quarto == -1) {
+    if((p_hospede+i)->quarto == quarto) {
       return i;
     }
   }
@@ -239,7 +244,7 @@ int busca_hospede(hospede *p_hospede, int qtdd_hospede) {
 }
 
 void checkout(hospede *p_hospede, quarto *p_quarto, int qtdd_hospede, int qtdd_quarto) {
-  int num_quarto, pos_quarto;
+  int num_quarto, pos_hospede;
   char op;
 
   do {
@@ -251,15 +256,14 @@ void checkout(hospede *p_hospede, quarto *p_quarto, int qtdd_hospede, int qtdd_q
       if((p_quarto+i)->num == num_quarto) {
         if((p_quarto+i)->status == 'O') {
           (p_quarto+i)->status = 'L';
-          pos_quarto = num_quarto;
           break;
         }
       } else {
-        pos_quarto = -1;
+        num_quarto = -1;
       }
     }
 
-    if(pos_quarto < 0) {
+    if(num_quarto < 0) {
       printf("O quarto indicado ou esta livre ou nao existe.\n");
       printf("Deseja tentar novamente (S/N): ");
       scanf("%c", &op);
@@ -269,16 +273,15 @@ void checkout(hospede *p_hospede, quarto *p_quarto, int qtdd_hospede, int qtdd_q
     if(op == 'N' || op == 'n') {
       break;
     }
-  } while(pos_quarto < 0);
+  } while(num_quarto < 0);
 
-  for(int i = 0; i < qtdd_hospede; i++) {
-    if((p_hospede+i)->quarto == num_quarto) {
-      printf("Quarto: %i\n", num_quarto);
-      printf("Nome: %s", (p_hospede+i)->nome);
-      printf("Categoria: %s\n", ((p_hospede+i)->categoria) == 'F' ? "Familiar" : "Solteiro");
-      printf("Acompanhantes: %i\n", (p_hospede+i)->acompanhante);
-      printf("Dias: %i\n", (p_hospede+i)->dias);
-      printf("Total Pago: R$%i\n", ((((p_hospede+i)->categoria) == 'F') ? (((p_hospede+i)->acompanhante + 1) * 45) : 85) * (p_hospede+i)->dias);
-    }
-  }
+  pos_hospede = busca_hospede(p_hospede, qtdd_hospede, num_quarto);
+
+  printf("\nQuarto: %i\n", num_quarto);
+  printf("Nome: %s", (p_hospede+pos_hospede)->nome);
+  printf("Categoria: %s\n", ((p_hospede+pos_hospede)->categoria) == 'F' ? "Familiar" : "Solteiro");
+  printf("Acompanhantes: %i\n", (p_hospede+pos_hospede)->acompanhante);
+  printf("Dias: %i\n", (p_hospede+pos_hospede)->dias);
+  printf("Total Pago: R$%i\n\n", ((((p_hospede+pos_hospede)->categoria) == 'F') ? (((p_hospede+pos_hospede)->acompanhante + 1) * 45) : 85) * (p_hospede+pos_hospede)->dias);
+  (p_hospede+pos_hospede)->quarto = -1;
 }
