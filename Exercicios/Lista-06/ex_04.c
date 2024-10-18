@@ -76,8 +76,8 @@ int main() {
   int qtdd_quarto = 0, qtdd_hospede = 0, op, pos_hospede;
   char categoria;
 
-  for(int i = 0; i < 5; i++) {
-    if(i < 2) {
+  for(int i = 0; i < 15; i++) {
+    if(i < 5) {
       categoria = 'F';
     } else {
       categoria = 'S';
